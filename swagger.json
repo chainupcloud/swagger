@@ -16,6 +16,9 @@
   "servers": [
     {
       "url": "https://staking.chainupcloud.com/aggregator/api/v1"
+    },
+    {
+      "url": "https://staking.chainupcloud.com/aggregator/api/v1/ropsten/"
     }
   ],
   "tags": [
@@ -433,17 +436,9 @@
       "Tx": {
         "type": "object",
         "properties": {
-          "gas": {
-            "type": "string",
-            "example": "0x2710"
-          },
           "to": {
             "type": "string",
             "example": "0x0000000000000000000000000000000000000000"
-          },
-          "from": {
-            "type": "string",
-            "example": "0xD0d76886cF8D952ca26177EB7CfDf83bad08C00C"
           },
           "value": {
             "type": "string",
@@ -451,11 +446,11 @@
           },
           "data": {
             "type": "string",
-            "example": "0x7f7465737432000000000000000000000000000000000000000000000000000000600057"
+            "example": "0x7299e0e60000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000140011c000000000000000000000000000092a14b12a4231e94507f969e367f6ee0eaf93a9ba3b82e8ab2598c8e36f3cd932d5a446a528bf3df636ed8bb3d1cfde901000000000000000000000000dfaae92ed72a05bc61262aa164f38b5626e1068c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b582c6181bcae0df24f047332b10657ee75faa7c42657b6577d7efac6672376bc330000000000000000000000000000000000000000000000000000000000c5115a582e418d86cf438b23f82f8fdb3803b7d6ecdceaf58f7d7625f11344e8fd320089d9392496b0e7bae45de1fb535e659a71c01f28207948d2db4b4f74265bf618"
           },
           "chainId": {
-            "type": "string",
-            "example": "0x3"
+            "type": "number",
+            "example": 3
           }
         },
         "xml": {
@@ -494,9 +489,9 @@
             "type": "string",
             "example": "5.7%"
           },
-          "expired": {
-            "type": "string",
-            "example": "600"
+          "expired_block": {
+            "type": "number",
+            "example": 12915519
           },
           "transaction": {
             "$ref": "#/components/schemas/Tx"
