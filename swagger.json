@@ -23,6 +23,10 @@
   ],
   "tags": [
     {
+      "name": "btach",
+      "description": "Unmanaged batch staking"
+    },
+    {
       "name": "quote",
       "description": "Quote the different staking strategies (routes)"
     },
@@ -32,6 +36,70 @@
     }
   ],
   "paths": {
+    "/batch_stake": {
+      "get": {
+        "tags": [
+          "btach"
+        ],
+        "summary": "Returns a batch_stake transaction",
+        "description": "Create a transaction that batch_stake ETH.\n\nhttps://docs.metamask.io/guide/sending-transactions.html",
+        "operationId": "batch_stake",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "query",
+            "description": "query source.",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "xxx"
+            }
+          },
+          {
+            "name": "withdrawal_credentials",
+            "in": "query",
+            "description": "withdrawal_credentials.",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "00854c6faee9e38f00026f53d179fce5dadb537170ca677367ba4016d50a276e"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "The amount of ETH to stake (in uint256).",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "32000000000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tx"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tx"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/quote/stake": {
       "get": {
         "tags": [
