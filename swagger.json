@@ -23,8 +23,8 @@
   ],
   "tags": [
     {
-      "name": "btach",
-      "description": "Unmanaged batch staking"
+      "name": "btach_stake",
+      "description": "non-custodial staking"
     },
     {
       "name": "quote",
@@ -33,13 +33,17 @@
     {
       "name": "address",
       "description": "Query the staking information on an address"
+    },
+    {
+      "name": "validator",
+      "description": "validator operation"
     }
   ],
   "paths": {
     "/batch_stake": {
       "get": {
         "tags": [
-          "btach"
+          "btach_stake"
         ],
         "summary": "Returns a batch_stake transaction",
         "description": "Create a transaction that batch_stake ETH.\n\nhttps://docs.metamask.io/guide/sending-transactions.html",
@@ -69,7 +73,7 @@
           {
             "name": "amount",
             "in": "query",
-            "description": "The amount of ETH to stake (in uint256).",
+            "description": "The amount of ETH to stake (in uint256). Must be an integer multiple of 32eth.",
             "required": true,
             "explode": true,
             "schema": {
@@ -151,6 +155,17 @@
               "type": "string",
               "example": "32000000000"
             }
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "Timestamp signature to prevent attacks",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
+            }
           }
         ],
         "responses": {
@@ -183,80 +198,6 @@
         "summary": "Returns a unstake transaction, Not supported now until Shanghai upgrade",
         "description": "Reserved, not available until Shanghai upgrade",
         "operationId": "unstake",
-        "parameters": [
-          {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
-            }
-          },
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address performing the staking action. The address will have the authority to sell.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "chainup.eth"
-            }
-          },
-          {
-            "name": "pubkeys",
-            "in": "query",
-            "description": "The pubey of the validator that will be sold. When selling all, can fill in \"all\"",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "ad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349,ccd544ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e350"
-            }
-          },
-          {
-            "name": "amount",
-            "in": "query",
-            "description": "Used to support partial exits after staking pools (in uint256).",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "32000000000"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tx"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tx"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/quote/sell": {
-      "get": {
-        "tags": [
-          "quote"
-        ],
-        "summary": "Returns a sell validator transaction, before the Shanghai upgrade",
-        "description": "Create a transaction that sell validator. The validity period is one month. If the sell is not successful after the time expires, the sell transaction will be invalid.\n\n\nhttps://docs.metamask.io/guide/sending-transactions.html",
-        "operationId": "sell",
         "parameters": [
           {
             "name": "source",
@@ -392,16 +333,6 @@
         "operationId": "balance",
         "parameters": [
           {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
-            }
-          },
-          {
             "name": "address",
             "in": "query",
             "description": "The address to query",
@@ -450,16 +381,6 @@
         "operationId": "validator",
         "parameters": [
           {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
-            }
-          },
-          {
             "name": "address",
             "in": "query",
             "description": "The address to query",
@@ -487,6 +408,245 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Eth32node"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/validator/sell": {
+      "get": {
+        "tags": [
+          "validator"
+        ],
+        "summary": "Sell validators",
+        "description": "Users can opt out of validators early with a discounted price",
+        "operationId": "sell",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "description": "The address to query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+            }
+          },
+          {
+            "name": "pubkeys",
+            "in": "query",
+            "description": "The pubkeys to sell",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+            }
+          },
+          {
+            "name": "rebate",
+            "in": "query",
+            "description": "The rebate price, unit eth(GWEI)",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 50000000
+            }
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "signature of sell",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/validator/cancel_sell": {
+      "get": {
+        "tags": [
+          "validator"
+        ],
+        "summary": "Cancel the sale of validators",
+        "description": "Cancel the sale of validators",
+        "operationId": "cancel_sell",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "description": "The address to query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+            }
+          },
+          {
+            "name": "pubkeys",
+            "in": "query",
+            "description": "The pubkeys to sell",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+            }
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "signature of sell",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SuccessResponse"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/validator/orders": {
+      "get": {
+        "tags": [
+          "validator"
+        ],
+        "summary": "Get a list of validator orders in sale",
+        "description": "Get a list of validator orders in sale",
+        "operationId": "orders",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/validator/buy": {
+      "get": {
+        "tags": [
+          "validator"
+        ],
+        "summary": "Buy a validator that is on sale",
+        "description": "Buy a validator that is on sale",
+        "operationId": "buy",
+        "parameters": [
+          {
+            "name": "source",
+            "in": "query",
+            "description": "The address to query",
+            "schema": {
+              "type": "string",
+              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+            }
+          },
+          {
+            "name": "pubkeys",
+            "in": "query",
+            "description": "The pubkeys to sell",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Buy"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Buy"
                   }
                 }
               }
@@ -556,6 +716,26 @@
           "totalYield": {
             "type": "string",
             "example": "5.7%"
+          },
+          "expired_block": {
+            "type": "number",
+            "example": 12915519
+          },
+          "transaction": {
+            "$ref": "#/components/schemas/Tx"
+          }
+        }
+      },
+      "Buy": {
+        "type": "object",
+        "properties": {
+          "pubkey": {
+            "type": "string",
+            "example": "0x867942b357b5fb5194b5443de84d63fe8d80424245d6405da39a8fab9970ce09456b3abb998ec99ebc266f6657f67cc1"
+          },
+          "rebate": {
+            "type": "string",
+            "example": "100000000"
           },
           "expired_block": {
             "type": "number",
@@ -648,13 +828,61 @@
             "type": "string",
             "example": "ad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
           },
-          "balance": {
+          "value": {
             "type": "string",
-            "example": "35.567"
+            "example": "35567000000"
+          },
+          "gas_reward": {
+            "type": "string",
+            "example": "5400000"
+          },
+          "status": {
+            "type": "string",
+            "example": "active or selling"
           }
         },
         "xml": {
           "name": "eth32node"
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "example": 200
+          },
+          "msg": {
+            "type": "string",
+            "example": "success"
+          }
+        },
+        "xml": {
+          "name": "successResponse"
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string",
+            "example": "0xD0d76886cF8D952ca26177EB7CfDf83bad08C00C"
+          },
+          "pubkey": {
+            "type": "string",
+            "example": "0x867942b357b5fb5194b5443de84d63fe8d80424245d6405da39a8fab9970ce09456b3abb998ec99ebc266f6657f67cc1"
+          },
+          "rebate": {
+            "type": "string",
+            "example": "100000000"
+          },
+          "value": {
+            "type": "string",
+            "example": "32400000000"
+          }
+        },
+        "xml": {
+          "name": "order"
         }
       }
     },
