@@ -35,8 +35,8 @@
       "description": "Query the staking information on an address"
     },
     {
-      "name": "validator",
-      "description": "validator operation"
+      "name": "nft",
+      "description": "nft operation"
     }
   ],
   "paths": {
@@ -79,6 +79,26 @@
             "schema": {
               "type": "string",
               "example": "32000000000"
+            }
+          },
+          {
+            "name": "blockheight",
+            "in": "query",
+            "description": "block height at batch_staking",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12915519"
+            }
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "signature of batch_stake. signature data:blockheight",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
             }
           }
         ],
@@ -157,10 +177,19 @@
             }
           },
           {
+            "name": "blockheight",
+            "in": "query",
+            "description": "block height at staking. 32x strategy require",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "12915519"
+            }
+          },
+          {
             "name": "signature",
             "in": "query",
-            "description": "Timestamp signature to prevent attacks",
-            "required": true,
+            "description": "Timestamp signature to prevent attacks. 32x strategy require. signature data:blockheight",
             "explode": true,
             "schema": {
               "type": "string",
@@ -419,12 +448,12 @@
         }
       }
     },
-    "/validator/sell": {
+    "/nft/list": {
       "get": {
         "tags": [
-          "validator"
+          "nft"
         ],
-        "summary": "Sell validators",
+        "summary": "list validators nft",
         "description": "Users can opt out of validators early with a discounted price",
         "operationId": "sell",
         "parameters": [
@@ -439,13 +468,13 @@
             }
           },
           {
-            "name": "pubkeys",
+            "name": "tokenids",
             "in": "query",
-            "description": "The pubkeys to sell",
+            "description": "The tokenids to list",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+              "example": "1,14,25"
             }
           },
           {
@@ -459,9 +488,19 @@
             }
           },
           {
+            "name": "blockheight",
+            "in": "query",
+            "description": "block height at list",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12915519"
+            }
+          },
+          {
             "name": "signature",
             "in": "query",
-            "description": "signature of sell",
+            "description": "signature of list. signature data:[tokenids ...] + rebate + blockheight",
             "required": true,
             "schema": {
               "type": "string",
@@ -497,12 +536,12 @@
         }
       }
     },
-    "/validator/cancel_sell": {
+    "/nft/cancel_listing": {
       "get": {
         "tags": [
-          "validator"
+          "nft"
         ],
-        "summary": "Cancel the sale of validators",
+        "summary": "Cancel listing of validators nft",
         "description": "Cancel the sale of validators",
         "operationId": "cancel_sell",
         "parameters": [
@@ -517,19 +556,29 @@
             }
           },
           {
-            "name": "pubkeys",
+            "name": "tokenids",
             "in": "query",
-            "description": "The pubkeys to sell",
+            "description": "The tokenids to cancel_listing",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+              "example": "1,14,25"
+            }
+          },
+          {
+            "name": "blockheight",
+            "in": "query",
+            "description": "block height at cancel_listing",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12915519"
             }
           },
           {
             "name": "signature",
             "in": "query",
-            "description": "signature of sell",
+            "description": "signature of cancel_listing. signature data:[tokenids ...] + blockheight",
             "required": true,
             "schema": {
               "type": "string",
@@ -565,10 +614,10 @@
         }
       }
     },
-    "/validator/orders": {
+    "/nft/listings": {
       "get": {
         "tags": [
-          "validator"
+          "nft"
         ],
         "summary": "Get a list of validator orders in sale",
         "description": "Get a list of validator orders in sale",
@@ -601,13 +650,13 @@
         }
       }
     },
-    "/validator/buy": {
+    "/nft/buy": {
       "get": {
         "tags": [
-          "validator"
+          "nft"
         ],
-        "summary": "Buy a validator that is on sale",
-        "description": "Buy a validator that is on sale",
+        "summary": "Buy a validator nft",
+        "description": "Buy a validator nft",
         "operationId": "buy",
         "parameters": [
           {
@@ -620,13 +669,13 @@
             }
           },
           {
-            "name": "pubkeys",
+            "name": "tokenids",
             "in": "query",
-            "description": "The pubkeys to sell",
+            "description": "The tokenids to buy",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "0xad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
+              "example": "1,14"
             }
           }
         ],
