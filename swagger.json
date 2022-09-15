@@ -82,6 +82,17 @@
             }
           },
           {
+            "name": "address",
+            "in": "query",
+            "description": "The address performing the staking action. The address will have the authority to unstake.",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
+            }
+          },
+          {
             "name": "blockheight",
             "in": "query",
             "description": "block height at batch_staking",
@@ -162,7 +173,7 @@
             "explode": true,
             "schema": {
               "type": "string",
-              "example": "chainup.eth"
+              "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
             }
           },
           {
@@ -246,7 +257,7 @@
             "explode": true,
             "schema": {
               "type": "string",
-              "default": "chainup.eth"
+              "default": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
             }
           },
           {
@@ -483,7 +494,7 @@
             "description": "The rebate price, unit eth(GWEI)",
             "required": true,
             "schema": {
-              "type": "number",
+              "type": "string",
               "example": 50000000
             }
           },
@@ -677,6 +688,26 @@
               "type": "string",
               "example": "1,14"
             }
+          },
+          {
+            "name": "blockheight",
+            "in": "query",
+            "description": "block height at cancel_listing",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "12915519"
+            }
+          },
+          {
+            "name": "signature",
+            "in": "query",
+            "description": "signature of cancel_listing. signature data:[tokenids ...] + blockheight",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
+            }
           }
         ],
         "responses": {
@@ -770,6 +801,18 @@
             "type": "number",
             "example": 12915519
           },
+          "receive": {
+            "type": "string",
+            "example": "1 NFT"
+          },
+          "gas_reward": {
+            "type": "string",
+            "example": "100000000000000"
+          },
+          "gas_reward_usd": {
+            "type": "string",
+            "example": "30.587"
+          },
           "transaction": {
             "$ref": "#/components/schemas/Tx"
           }
@@ -778,13 +821,26 @@
       "Buy": {
         "type": "object",
         "properties": {
-          "pubkey": {
-            "type": "string",
-            "example": "0x867942b357b5fb5194b5443de84d63fe8d80424245d6405da39a8fab9970ce09456b3abb998ec99ebc266f6657f67cc1"
+          "token_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "1"
+            }
           },
-          "rebate": {
-            "type": "string",
-            "example": "100000000"
+          "rebates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "1000000000000000000"
+            }
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "33000000000000000000"
+            }
           },
           "expired_block": {
             "type": "number",
@@ -830,6 +886,10 @@
           "best": {
             "type": "boolean",
             "example": true
+          },
+          "desc": {
+            "type": "string",
+            "example": "Stake 32 ETH to get a validator"
           }
         },
         "xml": {
@@ -839,6 +899,18 @@
       "Balance": {
         "type": "object",
         "properties": {
+          "nft": {
+            "type": "string",
+            "example": "2 NFT"
+          },
+          "gas_reward": {
+            "type": "string",
+            "example": "100000000000000"
+          },
+          "gas_reward_usd": {
+            "type": "string",
+            "example": "567.32"
+          },
           "amount": {
             "type": "string",
             "example": "0.567"
@@ -857,7 +929,7 @@
         "properties": {
           "pool": {
             "type": "string",
-            "example": "Rocketpool"
+            "example": "Chain Up Pool"
           },
           "balances": {
             "type": "array",
@@ -873,21 +945,33 @@
       "Eth32node": {
         "type": "object",
         "properties": {
+          "token_id": {
+            "type": "number",
+            "example": 3
+          },
           "pubkey": {
             "type": "string",
             "example": "ad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349"
           },
-          "value": {
+          "balance": {
             "type": "string",
-            "example": "35567000000"
+            "example": "35567000000000000000"
           },
           "gas_reward": {
             "type": "string",
-            "example": "5400000"
+            "example": "5400000000000"
+          },
+          "gas_reward_usd": {
+            "type": "string",
+            "example": "34.615"
           },
           "status": {
             "type": "string",
-            "example": "active or selling"
+            "example": "active or pending or selling"
+          },
+          "rebate": {
+            "type": "string",
+            "example": "1000000000000000000"
           }
         },
         "xml": {
@@ -913,6 +997,10 @@
       "Order": {
         "type": "object",
         "properties": {
+          "token_id": {
+            "type": "string",
+            "example": "55"
+          },
           "owner": {
             "type": "string",
             "example": "0xD0d76886cF8D952ca26177EB7CfDf83bad08C00C"
