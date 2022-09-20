@@ -15,17 +15,16 @@
   },
   "servers": [
     {
-      "url": "https://staking.chainupcloud.com/aggregator/api/v1"
+      "url": "https://staking.chainupcloud.com/aggregator/api/v1/"
     },
     {
       "url": "https://staking.chainupcloud.com/aggregator/api/v1/ropsten/"
+    },
+    {
+      "url": "https://staking.chainupcloud.com/aggregator/api/v1/goerli/"
     }
   ],
   "tags": [
-    {
-      "name": "btach_stake",
-      "description": "non-custodial staking"
-    },
     {
       "name": "quote",
       "description": "Quote the different staking strategies (routes)"
@@ -40,101 +39,6 @@
     }
   ],
   "paths": {
-    "/batch_stake": {
-      "get": {
-        "tags": [
-          "btach_stake"
-        ],
-        "summary": "Returns a batch_stake transaction",
-        "description": "Create a transaction that batch_stake ETH.\n\nhttps://docs.metamask.io/guide/sending-transactions.html",
-        "operationId": "batch_stake",
-        "parameters": [
-          {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
-            }
-          },
-          {
-            "name": "withdrawal_credentials",
-            "in": "query",
-            "description": "withdrawal_credentials.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "00854c6faee9e38f00026f53d179fce5dadb537170ca677367ba4016d50a276e"
-            }
-          },
-          {
-            "name": "amount",
-            "in": "query",
-            "description": "The amount of ETH to stake (in uint256). Must be an integer multiple of 32eth.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "32000000000"
-            }
-          },
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address performing the staking action. The address will have the authority to unstake.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
-            }
-          },
-          {
-            "name": "blockheight",
-            "in": "query",
-            "description": "block height at batch_staking",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12915519"
-            }
-          },
-          {
-            "name": "signature",
-            "in": "query",
-            "description": "signature of batch_stake. signature data:blockheight",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tx"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Tx"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
     "/quote/stake": {
       "get": {
         "tags": [
