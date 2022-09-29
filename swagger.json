@@ -383,9 +383,9 @@
             }
           },
           {
-            "name": "tokenids",
+            "name": "tokenid",
             "in": "query",
-            "description": "The tokenids to list",
+            "description": "The tokenid to list",
             "required": true,
             "schema": {
               "type": "string",
@@ -400,6 +400,16 @@
             "schema": {
               "type": "string",
               "example": 50000000
+            }
+          },
+          {
+            "name": "nonce",
+            "in": "query",
+            "description": "The tokenId nonce",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": 1
             }
           },
           {
@@ -575,9 +585,10 @@
         "operationId": "buy",
         "parameters": [
           {
-            "name": "source",
+            "name": "address",
             "in": "query",
             "description": "The address to query",
+            "required": true,
             "schema": {
               "type": "string",
               "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
@@ -725,25 +736,10 @@
       "Buy": {
         "type": "object",
         "properties": {
-          "token_ids": {
+          "buy_info": {
             "type": "array",
             "items": {
-              "type": "string",
-              "example": "1"
-            }
-          },
-          "rebates": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "example": "1000000000000000000"
-            }
-          },
-          "prices": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "example": "33000000000000000000"
+              "$ref": "#/components/schemas/BuyInfo"
             }
           },
           "expired_block": {
@@ -752,6 +748,23 @@
           },
           "transaction": {
             "$ref": "#/components/schemas/Tx"
+          }
+        }
+      },
+      "BuyInfo": {
+        "type": "object",
+        "properties": {
+          "token_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "rebate": {
+            "type": "string",
+            "example": "1000000000000000000"
+          },
+          "price": {
+            "type": "string",
+            "example": "33000000000000000000"
           }
         }
       },
@@ -806,6 +819,13 @@
           "nft": {
             "type": "string",
             "example": "2 NFT"
+          },
+          "token_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "1"
+            }
           },
           "gas_reward": {
             "type": "string",
