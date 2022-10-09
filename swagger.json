@@ -40,78 +40,24 @@
   ],
   "paths": {
     "/quote/stake": {
-      "get": {
+      "post": {
         "tags": [
           "quote"
         ],
         "summary": "Returns a stake transaction",
-        "description": "Create a transaction that stakes ETH.\n\nhttps://docs.metamask.io/guide/sending-transactions.html",
+        "description": "Create a transaction that stakes ETH. https://docs.metamask.io/guide/sending-transactions.html",
         "operationId": "stake",
-        "parameters": [
-          {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StakeRequest"
+              }
             }
           },
-          {
-            "name": "strategyId",
-            "in": "query",
-            "description": "Id of the strategy.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "32x"
-            }
-          },
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address performing the staking action. The address will have the authority to unstake.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
-            }
-          },
-          {
-            "name": "amount",
-            "in": "query",
-            "description": "The amount of ETH to stake (in uint256).",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "32000000000"
-            }
-          },
-          {
-            "name": "blockheight",
-            "in": "query",
-            "description": "block height at staking. 32x strategy require",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "12915519"
-            }
-          },
-          {
-            "name": "signature",
-            "in": "query",
-            "description": "Timestamp signature to prevent attacks. 32x strategy require. signature data:blockheight",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -135,57 +81,24 @@
       }
     },
     "/quote/unstake": {
-      "get": {
+      "post": {
         "tags": [
           "quote"
         ],
         "summary": "Returns a unstake transaction, Not supported now until Shanghai upgrade",
         "description": "Reserved, not available until Shanghai upgrade",
         "operationId": "unstake",
-        "parameters": [
-          {
-            "name": "source",
-            "in": "query",
-            "description": "query source.",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "xxx"
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": ""
+              }
             }
           },
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address performing the staking action. The address will have the authority to sell.",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "default": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
-            }
-          },
-          {
-            "name": "pubkeys",
-            "in": "query",
-            "description": "The pubey of the validator that will be sold. When selling all, can fill in \"all\"",
-            "required": true,
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "ad28d4ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e349,ccd544ce9afdac1584e4ce9440b7e1a9dc4a8c5f4bc8c66883723647fce77e42fe7898615a7af1e4971cd7a08403e350"
-            }
-          },
-          {
-            "name": "amount",
-            "in": "query",
-            "description": "Used to support partial exits after staking pools (in uint256).",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "example": "32000000000"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -364,75 +277,24 @@
       }
     },
     "/nft/list": {
-      "get": {
+      "post": {
         "tags": [
           "nft"
         ],
         "summary": "list validators nft",
         "description": "Users can opt out of validators early with a discounted price",
         "operationId": "sell",
-        "parameters": [
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address to query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListRequest"
+              }
             }
           },
-          {
-            "name": "tokenid",
-            "in": "query",
-            "description": "The tokenid to list",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "1,14,25"
-            }
-          },
-          {
-            "name": "rebate",
-            "in": "query",
-            "description": "The rebate price, unit eth(GWEI)",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": 50000000
-            }
-          },
-          {
-            "name": "nonce",
-            "in": "query",
-            "description": "The tokenId nonce",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": 1
-            }
-          },
-          {
-            "name": "blockheight",
-            "in": "query",
-            "description": "block height at list",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12915519"
-            }
-          },
-          {
-            "name": "signature",
-            "in": "query",
-            "description": "signature of list. signature data:[tokenids ...] + rebate + blockheight",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -462,55 +324,24 @@
       }
     },
     "/nft/cancel_listing": {
-      "get": {
+      "post": {
         "tags": [
           "nft"
         ],
         "summary": "Cancel listing of validators nft",
         "description": "Cancel the sale of validators",
         "operationId": "cancel_sell",
-        "parameters": [
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address to query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelListingRequest"
+              }
             }
           },
-          {
-            "name": "tokenids",
-            "in": "query",
-            "description": "The tokenids to cancel_listing",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "1,14,25"
-            }
-          },
-          {
-            "name": "blockheight",
-            "in": "query",
-            "description": "block height at cancel_listing",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12915519"
-            }
-          },
-          {
-            "name": "signature",
-            "in": "query",
-            "description": "signature of cancel_listing. signature data:[tokenids ...] + blockheight",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -576,55 +407,24 @@
       }
     },
     "/nft/buy": {
-      "get": {
+      "post": {
         "tags": [
           "nft"
         ],
         "summary": "Buy a validator nft",
         "description": "Buy a validator nft",
         "operationId": "buy",
-        "parameters": [
-          {
-            "name": "address",
-            "in": "query",
-            "description": "The address to query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "0x2f318C334780961FB129D2a6c30D0763d9a5C970"
+        "requestBody": {
+          "description": "Create a new pet in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BuyRequest"
+              }
             }
           },
-          {
-            "name": "tokenids",
-            "in": "query",
-            "description": "The tokenids to buy",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "1,14"
-            }
-          },
-          {
-            "name": "blockheight",
-            "in": "query",
-            "description": "block height at cancel_listing",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "12915519"
-            }
-          },
-          {
-            "name": "signature",
-            "in": "query",
-            "description": "signature of cancel_listing. signature data:[tokenids ...] + blockheight",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "8c9270550945d18f6500e11d0db074d52408cde8a3a30108c8e341ba6e0b92a4d82efb24097dc808313a0145ba096e0c16455aa1c3a7a1019ae34ddf540d9fa121e498c43f757bc6f4105fe31dd5ea8d67483ab435e5a371874dddffa5e65b58"
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -656,6 +456,106 @@
   },
   "components": {
     "schemas": {
+      "StakeRequest": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "example": "xxx"
+          },
+          "strategy_id": {
+            "type": "string",
+            "example": "32x"
+          },
+          "address": {
+            "type": "string",
+            "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
+          },
+          "amount": {
+            "type": "string",
+            "example": "32000000000000000000"
+          },
+          "block_height": {
+            "type": "string",
+            "example": "12915519"
+          },
+          "signature": {
+            "type": "string",
+            "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
+          }
+        }
+      },
+      "ListRequest": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
+          },
+          "token_id": {
+            "type": "string",
+            "example": "1"
+          },
+          "rebate": {
+            "type": "string",
+            "example": "32000000000000000000"
+          },
+          "block_height": {
+            "type": "string",
+            "example": "12915519"
+          },
+          "nonce": {
+            "type": "string",
+            "example": "1"
+          },
+          "signature": {
+            "type": "string",
+            "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
+          }
+        }
+      },
+      "CancelListingRequest": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
+          },
+          "token_ids": {
+            "type": "string",
+            "example": "1"
+          },
+          "block_height": {
+            "type": "string",
+            "example": "12915519"
+          },
+          "signature": {
+            "type": "string",
+            "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
+          }
+        }
+      },
+      "BuyRequest": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "example": "0xf5ade6b61ba60b8b82566af0dfca982169a470dc"
+          },
+          "token_ids": {
+            "type": "string",
+            "example": "1"
+          },
+          "block_height": {
+            "type": "string",
+            "example": "12915519"
+          },
+          "signature": {
+            "type": "string",
+            "example": "90df2cb55527aaaa7d04692bd2498f363f67d383b326e193bb753f9c2fc35ee64a74a663dcb5ec977642233c592884fa0fb5bbbd00f54745bd8388f12e25cbe342fc5238d612700deb76123f1f31f0ea376876c20954526b95a0ee43ccf36e47"
+          }
+        }
+      },
       "Tx": {
         "type": "object",
         "properties": {
