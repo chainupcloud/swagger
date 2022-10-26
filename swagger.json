@@ -1,24 +1,16 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "ChainUp Cloud Staking Aggregator",
-    "description": "This is ChainUp Staking Aggregator API documentation. Users can use this API to integrate one click staking into their application. It is the easiest way for developers to stake Ethereum. Simply pass in the desired amount to stake, and the API will return the serialized transactions needed to execute the staking, which can then be passed into the blockchain with the required signatures. \n\n_“A world-leading blockchain technology service all-in-one solution suite.”_\n\n_Founded in 2017 and headquartered in Singapore, ChainUp is a leader in blockchain technology and crypto ecosystem solutions. We have continued to enhance a number of maturing products such as digital asset trading systems, fiat on-ramp, wallet, security, mining, digital assets custody, investment, and NFTs. We have built an end-to-end closed industrial loop of technical services, innovative research and development, and traffic-commercialization. At present, ChainUp has provided blockchain technology services to 1000+ clients in both crypto/blockchain and traditional industries in more than 30 countries and regions with coverage of over 60 million users._\n\n\nSome useful links:\n- [ChainUp Cloud](https://www.chainupcloud.com/)\n- [ChainUp Cloud Documentation](https://docs.chainupcloud.com/)",
-    "termsOfService": "https://www.chainup.com/en-US/privacyPolicy",
-    "contact": {
-      "email": "sales@ChainUp.com"
-    },
+    "title": "KingHash Staking Aggregator",
+    "description": "This is KingHash Aggregator API documentation. Users can use this API to integrate one click staking into their application. It is the easiest way for developers to stake Ethereum. Simply pass in the desired amount to stake, and the API will return the serialized transactions needed to execute the staking, which can then be passed into the blockchain with the required signatures. ",
     "version": "1.0.0"
-  },
-  "externalDocs": {
-    "description": "Find out more about ChainUp",
-    "url": "https://www.chainup.com/en-US/"
   },
   "servers": [
     {
-      "url": "https://staking.chainupcloud.com/aggregator/api/v1/"
+      "url": "https://www.kinghash.com/aggregator/api/v1/"
     },
     {
-      "url": "https://staking.chainupcloud.com/aggregator/api/v1/goerli/"
+      "url": "https://www.kinghash.com/aggregator/api/v1/goerli/"
     }
   ],
   "tags": [
